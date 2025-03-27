@@ -69,4 +69,4 @@ The website is deployed on Vercel. Any push to the main branch will trigger an a
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📞 Contact
-Your Name - jayvegad10@gmail.com
+Jay vegad - jayvegad10@gmail.com
