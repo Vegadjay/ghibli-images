@@ -167,19 +167,21 @@ export default function Home() {
                 variants={bentoVariants}
                 className={`relative group overflow-hidden rounded-2xl aspect-square border-2 border-muted/30 transition-all duration-300 hover:border-primary/50 hover:shadow-lg`}
               >
-                <div className="w-full h-full">
-                  <img
-                    src={post.imageUrl}
-                    alt="User shared image"
-                    className="w-full h-full object-cover rounded-2xl group-hover:brightness-90 transition-all duration-300"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex items-center text-white w-full justify-center">
-                      <UserCircle className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{post.twitterUrl}</span>
+                <a href={post.twitterUrl} target='_blank'>
+                  <div className="w-full h-full">
+                    <img
+                      src={post.imageUrl}
+                      alt="User shared image"
+                      className="w-full h-full object-cover rounded-2xl group-hover:brightness-90 transition-all duration-300"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex items-center text-white w-full justify-center">
+                        <UserCircle className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{post.twitterUrl}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               </motion.div>
             ))}
           </motion.div>
