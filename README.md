@@ -1,1 +1,0 @@
-# ghibil-images

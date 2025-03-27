@@ -21,7 +21,7 @@ export default function UploadPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 4 * 1024 * 1024) { // 4MB limit
+      if (file.size > 4 * 1024 * 1024) {
         toast.error('File size should be less than 4MB');
         return;
       }
@@ -40,12 +40,12 @@ export default function UploadPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedFile) {
       toast.error('Please select an image first');
       return;
     }
-    
+
     try {
       setIsUploading(true);
       const userId = localStorage.getItem('userId') || Math.random().toString(36).substring(7);
@@ -63,7 +63,7 @@ export default function UploadPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to create post');
+        throw new Error(data.error || 'Failed to create post 11');
       }
 
       toast.success('Post created successfully');
@@ -129,7 +129,7 @@ export default function UploadPage() {
                         </Button>
                       </div>
                     ) : (
-                      <div 
+                      <div
                         className="border-2 border-dashed border-muted-foreground/25 rounded-xl p-8 text-center cursor-pointer hover:border-muted-foreground/50 transition-colors"
                         onClick={() => fileInputRef.current?.click()}
                       >
