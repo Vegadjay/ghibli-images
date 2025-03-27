@@ -87,7 +87,7 @@ export default function UploadPage() {
       >
         <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Grid
+          Go Back
         </Link>
 
         <Card className="max-w-2xl mx-auto rounded-2xl overflow-hidden">
