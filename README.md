@@ -32,12 +32,12 @@
 ### Steps
 1. Clone the repository
 ```bash
-git clone https://github.com/Vegadjay/ghibil-images.git
+git clone https://github.com/Vegadjay/ghibli-images.git
 ```
 
 2. Install dependencies
 ```bash
-cd ghibil-images
+cd ghibli-images
 npm install
 ```
 
