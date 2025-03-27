@@ -73,12 +73,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Responsive Navbar */}
       <nav className="fixed w-full bg-background/80 backdrop-blur-sm border-b z-50">
         <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-4">
             <ImageIcon className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 tracking-tight">
+            <h1 className="text-3xl font-bold text-primary bg-clip-text bg-gradient-to-r from-primary to-purple-600 tracking-tight">
               Ghibli Moments
             </h1>
           </div>

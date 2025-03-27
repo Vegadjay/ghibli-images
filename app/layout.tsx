@@ -7,8 +7,8 @@ import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Social Grid',
-  description: 'Share your social presence',
+  title: 'Ghibil Photos | Jay Vegad',
+  description: 'This is new website using next js. Ghibil photos, Ghibil Grids, Ghibil store',
 };
 
 export default function RootLayout({

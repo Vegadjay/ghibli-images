@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
-// Add this export to explicitly make the route dynamic
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
@@ -11,7 +10,6 @@ export async function POST(req: Request) {
     const twitterUrl = formData.get('twitterUrl') as string | null;
     const userId = formData.get('userId') as string | null;
 
-    // Validate inputs
     if (!file || !twitterUrl || !userId) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -19,11 +17,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Database connection
     const client = await clientPromise;
     const db = client.db("socialgrid");
 
-    // Check existing posts
     const existingPosts = await db.collection("posts").find({ userId }).toArray();
     if (existingPosts.length >= 2) {
       return NextResponse.json(
@@ -32,12 +28,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // Convert file to base64
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const base64Image = `data:${file.type};base64,${buffer.toString('base64')}`;
 
-    // Prepare post document
     const post = {
       imageUrl: base64Image,
       twitterUrl,
@@ -45,7 +39,6 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     };
 
-    // Insert post
     await db.collection("posts").insertOne(post);
 
     return NextResponse.json({ message: "Post created successfully" });
