@@ -22,6 +22,7 @@ import Link from 'next/link';
 interface Post {
   _id: string;
   imageUrl: string;
+  twitterHandle: string;
   twitterUrl: string;
   userId: string;
 }
@@ -30,6 +31,22 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [stats, setStats] = useState({ totalPosts: 0, totalUsers: 0 });
   const [isLoading, setIsLoading] = useState(true);
+
+  const extractTwitterHandle = (url: string): string => {
+    try {
+      // Create a URL object
+      const parsedUrl = new URL(url);
+
+      // Get the pathname and remove leading slash
+      const pathname = parsedUrl.pathname.substring(1);
+
+      // Return handle with @ symbol
+      return `@${pathname}`;
+    } catch (error) {
+      // If URL is invalid, return the input as is
+      return url.startsWith('@') ? url : `@${url}`;
+    }
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -43,7 +60,14 @@ export default function Home() {
       setIsLoading(true);
       const response = await fetch('/api/posts');
       const data = await response.json();
-      setPosts(data.posts);
+
+      // Extract Twitter handle for each post
+      const processedPosts = data.posts.map((post: Post) => ({
+        ...post,
+        twitterHandle: extractTwitterHandle(post.twitterUrl)
+      }));
+
+      setPosts(processedPosts);
       setStats({
         totalPosts: data.totalPosts,
         totalUsers: data.totalUsers
@@ -177,7 +201,7 @@ export default function Home() {
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="flex items-center text-white w-full justify-center">
                         <UserCircle className="h-4 w-4 mr-2" />
-                        <span className="text-sm">{post.twitterUrl}</span>
+                        <span className="text-sm">{post.twitterHandle}</span>
                       </div>
                     </div>
                   </div>

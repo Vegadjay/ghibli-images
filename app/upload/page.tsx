@@ -13,10 +13,26 @@ import { useRouter } from 'next/navigation';
 export default function UploadPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [twitterUrl, setTwitterUrl] = useState('');
+  const [twitterHandle, setTwitterHandle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  const extractTwitterHandle = (url: string): string => {
+    try {
+      // Create a URL object
+      const parsedUrl = new URL(url);
+
+      // Get the pathname and remove leading slash
+      const pathname = parsedUrl.pathname.substring(1);
+
+      // Return handle with @ symbol
+      return `@${pathname}`;
+    } catch (error) {
+      // If URL is invalid, return the input as is
+      return url.startsWith('@') ? url : `@${url}`;
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,6 +62,9 @@ export default function UploadPage() {
       return;
     }
 
+    // Extract and format Twitter handle
+    const formattedTwitterHandle = extractTwitterHandle(twitterHandle);
+
     try {
       setIsUploading(true);
       const userId = localStorage.getItem('userId') || Math.random().toString(36).substring(7);
@@ -53,7 +72,7 @@ export default function UploadPage() {
 
       const formData = new FormData();
       formData.append('file', selectedFile);
-      formData.append('twitterUrl', twitterUrl);
+      formData.append('twitterHandle', formattedTwitterHandle);
       formData.append('userId', userId);
 
       const response = await fetch('/api/posts', {
@@ -63,13 +82,13 @@ export default function UploadPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to create post 11');
+        throw new Error(data.error || 'Failed to create post');
       }
 
       toast.success('Post created successfully');
       setSelectedFile(null);
       setPreviewUrl(null);
-      setTwitterUrl('');
+      setTwitterHandle('');
       router.push('/');
     } catch (error: any) {
       toast.error(error.message);
@@ -154,15 +173,15 @@ export default function UploadPage() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="twitterUrl" className="block text-sm font-medium mb-2">
-                    Twitter URL
+                  <label htmlFor="twitterHandle" className="block text-sm font-medium mb-2">
+                    Twitter URL or Handle
                   </label>
                   <Input
-                    id="twitterUrl"
-                    type="url"
-                    placeholder="https://twitter.com/..."
-                    value={twitterUrl}
-                    onChange={(e) => setTwitterUrl(e.target.value)}
+                    id="twitterHandle"
+                    type="text"
+                    placeholder="https://x.com/username or @username"
+                    value={twitterHandle}
+                    onChange={(e) => setTwitterHandle(e.target.value)}
                     className="rounded-xl"
                     required
                   />
@@ -172,7 +191,7 @@ export default function UploadPage() {
                 type="submit"
                 className="w-full rounded-xl"
                 size="lg"
-                disabled={!selectedFile || !twitterUrl || isUploading}
+                disabled={!selectedFile || !twitterHandle || isUploading}
               >
                 <Upload className="mr-2 h-5 w-5" />
                 {isUploading ? 'Uploading...' : 'Share Post'}
